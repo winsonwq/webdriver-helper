@@ -1,8 +1,11 @@
 chai = require 'chai'
 chai.should()
 
-describe 'hello world', ->
+specify = it
 
-  it 'should be ok', (done) ->
-    (1).should.equal 1
-    done()
+describe 'webdriver helper', ->
+
+  describe 'input', ->
+
+    it 'should enter value in textbox', (done) ->
+      done()

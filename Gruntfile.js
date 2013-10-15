@@ -50,12 +50,21 @@ module.exports = function(grunt) {
         tasks: ['coffee', 'mochacli']
       },
     },
+    connect: {
+      server: {
+        options: {
+          port: 9001,
+          base: './test'
+        }
+      }
+    }
   });
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-mocha-cli');
+  grunt.loadNpmTasks('grunt-contrib-connect');
 
   // Default task.
   grunt.registerTask('test', ['mochacli']);
