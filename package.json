@@ -28,6 +28,10 @@
   "scripts": {
     "test": "grunt test"
   },
+  "dependencies": {
+    "selenium-webdriver": ">=2.33.0",
+    "underscore": "*"
+  },
   "devDependencies": {
     "grunt-contrib-watch": "~0.2.0",
     "grunt-contrib-coffee": "~0.7.0",
@@ -39,6 +43,7 @@
   "keywords": [
     "testing",
     "webdriver",
-    "selenium"
+    "selenium",
+    "javascript"
   ]
 }

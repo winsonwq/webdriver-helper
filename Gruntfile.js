@@ -6,6 +6,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     mochacli: {
       options: {
+        timeout: '60000',
         reporter: 'spec'
       },
       all: {
@@ -47,7 +48,7 @@ module.exports = function(grunt) {
     watch: {
       test: {
         files: ['<%= fileConfig.test.src %>', '<%= fileConfig.source.src%>'],
-        tasks: ['coffee', 'mochacli']
+        tasks: ['coffee', 'test']
       },
     },
     connect: {
@@ -67,6 +68,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
 
   // Default task.
-  grunt.registerTask('test', ['mochacli']);
+  grunt.registerTask('test', ['connect', 'mochacli']);
 
 };
