@@ -30,10 +30,25 @@
           </select>
         </p>
         <p>
+          <label>Multi-select Dropdown List</label>
+          <select name="multi-select-dropdownlist" multiple size="3">
+            <option value="1">value 1</option>
+            <option value="2">value 2</option>
+            <option value="3">value 3</option>
+            <option value="4">value 4</option>
+          </select>
+        </p>
+        <p>
           <label>Button</label>
-          <input type="button" name="button" value="Click Me !"/>
+          <input id="btn" type="button" name="button" value="Click Me !"/>
         </p>
       </fieldset>
     </form>
+    <script type="text/javascript">
+      var button = document.getElementById('btn');
+      button.onclick = function () {
+        document.body.appendChild(document.createTextNode('button clicked!!'));
+      };
+    </script>
   </body>
 </html>

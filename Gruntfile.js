@@ -68,6 +68,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
 
   // Default task.
-  grunt.registerTask('test', ['connect', 'mochacli']);
+  grunt.registerTask('test', ['coffee', 'connect', 'mochacli']);
 
 };

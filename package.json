@@ -30,7 +30,8 @@
   },
   "dependencies": {
     "selenium-webdriver": ">=2.33.0",
-    "underscore": "*"
+    "underscore": "*",
+    "Mr.Async": "latest"
   },
   "devDependencies": {
     "grunt-contrib-watch": "~0.2.0",
