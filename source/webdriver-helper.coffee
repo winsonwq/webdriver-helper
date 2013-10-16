@@ -3,6 +3,15 @@ WebDriver = webdriver.WebDriver
 _ = require 'underscore'
 mr = require 'Mr.Async'
 
+class Elements extends Array
+
+  constructor: (@wdElements) ->
+
+  count: (countHandler) ->
+    that = @
+    @wdElements.then (elements) ->
+      countHandler && countHandler.call(that, elements.length)
+
 class Element
 
   constructor: (@wdElement) ->
@@ -13,8 +22,8 @@ class Element
   click: (clickHandler) ->
     @wdElement.click().then @proxy(clickHandler)
 
-  enter: (text) ->
-    @wdElement.sendKeys text
+  enter: (text, enterHandler) ->
+    @wdElement.sendKeys(text).then @proxy(enterHandler)
 
   check: () ->
     @isChecked (checked) => @click() unless checked
@@ -68,6 +77,9 @@ class Element
 
 _.extend WebDriver.prototype, {
   
+  elements: (selector) ->
+    new Elements this.findElements(webdriver.By.css(selector))
+
   element: (selector) ->
     new Element this.findElement(webdriver.By.css(selector))
 

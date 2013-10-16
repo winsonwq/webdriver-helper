@@ -27,14 +27,24 @@ describe 'webdriver helper', ->
   describe 'input[name="textbox"]', ->
 
     selector = 'input[name="textbox"]'
+    input = null
+
+    beforeEach ->
+      input = driver.input selector
 
     it 'should enter value in textbox', (done) ->
-      input = driver.input selector
       input.enter 'hello input'
       input.value (value) ->
         value.should.equal 'hello input'
         this.should.equal input
         done()
+
+    it 'should enter value in textbox in aync syntax', (done) ->
+      input.enter 'hello input', ->
+        input.value (value) ->
+          value.should.equal 'hello input'
+          this.should.equal input
+          done()        
 
   describe 'input[name="checkbox"]', ->
 
@@ -117,6 +127,13 @@ describe 'webdriver helper', ->
         dropdownlist.values (values) ->
           values.should.eql ['2', '3']
           done()
+
+  describe 'elements', ->
+
+    it 'should return count of selected elements', (done) ->
+      driver.elements('input').count (count) ->
+        count.should.equal 5
+        done()
 
 
 
