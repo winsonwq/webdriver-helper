@@ -108,6 +108,7 @@ _.extend WebDriver.prototype, {
     new Element @findElement(webdriver.By.css(selector))
 
   input: (selector) -> @element selector
+
   dropdownlist: (selector) -> @element selector
 
   sleep: (duration) -> this.sleep duration
@@ -116,7 +117,13 @@ _.extend WebDriver.prototype, {
     @currentUrl (currUrl) =>
       @.get urlHelper.resolve currUrl, url
 
+  refresh: -> @navigate().refresh()
+
+  back: -> @navigate().back()
+
+  forward: -> @navigate().forward()
+
   currentUrl: (parsedUrlHandler) ->
-    @getCurrentUrl().then (currentUrl) =>
-      parsedUrlHandler?.call @, currentUrl
+    @getCurrentUrl().then (currUrl) =>
+      parsedUrlHandler?.call @, currUrl, urlHelper.parse(currUrl)
 }

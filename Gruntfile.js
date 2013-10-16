@@ -7,7 +7,8 @@ module.exports = function(grunt) {
     mochacli: {
       options: {
         timeout: '60000',
-        reporter: 'spec'
+        reporter: 'spec',
+        grep: grunt.option('grep')
       },
       all: {
         src: ['test/build/*.js'] 
