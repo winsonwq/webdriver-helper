@@ -1,26 +1,16 @@
 webdriver = require 'selenium-webdriver'
-_ = require 'underscore'
+builder = require './webdriver-builder'
 require('chai').should()
 require('../../lib/webdriver-helper')
 
-By = webdriver.By
-
 describe 'webdriver helper', ->
 
-  builder = new webdriver.Builder().usingServer 'http://localhost:4444/wd/hub'
-  builder = builder.withCapabilities { browserName: 'firefox' }
   driver = null
-
   host = 'http://localhost:9001'
 
-  before ->
-    driver = builder.build()
-
-  beforeEach ->
-    driver.get host
-
-  after ->
-    driver.quit()
+  before -> driver = builder.build()
+  beforeEach -> driver.get host
+  after -> driver.quit()
 
   describe 'attr', ->
 

@@ -2,6 +2,7 @@ webdriver = require 'selenium-webdriver'
 WebDriver = webdriver.WebDriver
 _ = require 'underscore'
 mr = require 'Mr.Async'
+urlHelper = require 'url'
 
 class Elements extends Array
 
@@ -101,14 +102,21 @@ class Element
 _.extend WebDriver.prototype, {
   
   elements: (selector) ->
-    new Elements this.findElements(webdriver.By.css(selector))
+    new Elements @findElements(webdriver.By.css(selector))
 
   element: (selector) ->
-    new Element this.findElement(webdriver.By.css(selector))
+    new Element @findElement(webdriver.By.css(selector))
 
-  input: (selector) -> this.element selector
-  dropdownlist: (selector) -> this.element selector
+  input: (selector) -> @element selector
+  dropdownlist: (selector) -> @element selector
 
   sleep: (duration) -> this.sleep duration
 
+  navigateTo: (url) -> 
+    @currentUrl (currUrl) =>
+      @.get urlHelper.resolve currUrl, url
+
+  currentUrl: (parsedUrlHandler) ->
+    @getCurrentUrl().then (currentUrl) =>
+      parsedUrlHandler?.call @, currentUrl
 }
