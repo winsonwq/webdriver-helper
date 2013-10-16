@@ -48,16 +48,22 @@ class Element
   select: Element.prototype.check
 
   isSelected: (valHandler) ->
-    @wdElement.isSelected().then @proxy(valHandler)
+    @wdElement.isSelected().then @proxy valHandler
     @
 
   isChecked: Element.prototype.isSelected
+
+  isEnabled: (valHandler) ->
+    @wdElement.isEnabled().then @proxy valHandler
 
   value: (valHandler) ->
     @attr 'value', @proxy(valHandler)
 
   attr: (attrName, attrHandler) ->
     @wdElement.getAttribute(attrName).then @proxy attrHandler
+
+  css: (cssName, valueHandler) ->
+    @wdElement.getCssValue(cssName).then @proxy valueHandler
 
   # for multi-select dropdownlist
   values: (valuesHandler) ->
@@ -102,5 +108,7 @@ _.extend WebDriver.prototype, {
 
   input: (selector) -> this.element selector
   dropdownlist: (selector) -> this.element selector
+
+  sleep: (duration) -> this.sleep duration
 
 }

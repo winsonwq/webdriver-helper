@@ -30,6 +30,14 @@ describe 'webdriver helper', ->
         name.should.equal 'textbox'
         done()
 
+  describe 'css', ->
+
+    it 'could return css value of element as per css property', (done) ->
+      input = driver.input 'input[name="textbox"]'
+      input.css 'font-family', (value) ->
+        value.should.equal 'verdana'
+        done()
+
   describe 'input[name="textbox"]', ->
 
     selector = 'input[name="textbox"]'
@@ -103,6 +111,14 @@ describe 'webdriver helper', ->
           text.should.contain 'button clicked!!'
           done()
 
+  describe 'input#disabled-btn[name="button"]', ->
+
+    it 'should not be enabled', (done) ->
+      driver.input('input#disabled-btn[name="button"]').isEnabled (enabled) ->
+        enabled.should.be.false
+        done();
+
+
   describe 'select[name="dropdownlist"]', ->
 
     selector = '[name="dropdownlist"]'
@@ -146,12 +162,12 @@ describe 'webdriver helper', ->
 
     it 'should return count of selected elements', (done) ->
       driver.elements('input').count (count) ->
-        count.should.equal 5
+        count.should.equal 6
         done()
 
     it 'should return count of selected elements immediately after being initialized', (done) ->
       driver.elements('input').init (elems) ->
-        this.count().should.equal 5
+        this.count().should.equal 6
         done()
 
     describe 'get element inside', ->
