@@ -3,9 +3,7 @@ _ = require 'underscore'
 require('chai').should()
 require('../../lib/webdriver-helper')
 
-specify = it
 By = webdriver.By
-
 
 describe 'webdriver helper', ->
 
@@ -24,6 +22,14 @@ describe 'webdriver helper', ->
   after ->
     driver.quit()
 
+  describe 'attr', ->
+
+    it 'could get attribute value of element', (done) ->
+      input = driver.input 'input[name="textbox"]'
+      input.attr 'name', (name) -> 
+        name.should.equal 'textbox'
+        done()
+
   describe 'input[name="textbox"]', ->
 
     selector = 'input[name="textbox"]'
@@ -32,19 +38,19 @@ describe 'webdriver helper', ->
     beforeEach ->
       input = driver.input selector
 
-    it 'should enter value in textbox', (done) ->
+    it 'could enter value in textbox', (done) ->
       input.enter 'hello input'
       input.value (value) ->
         value.should.equal 'hello input'
         this.should.equal input
         done()
 
-    it 'should enter value in textbox in aync syntax', (done) ->
+    it 'could enter value in textbox in aync syntax', (done) ->
       input.enter 'hello input', ->
         input.value (value) ->
           value.should.equal 'hello input'
           this.should.equal input
-          done()        
+          done()
 
   describe 'input[name="checkbox"]', ->
 
@@ -130,11 +136,35 @@ describe 'webdriver helper', ->
 
   describe 'elements', ->
 
+    it 'should be initialized before doing other actions', (done) ->
+      elements = driver.elements('input')
+      elements.initialized.should.be.false
+
+      elements.init (elems) ->
+        this.initialized.should.be.true
+        done()
+
     it 'should return count of selected elements', (done) ->
       driver.elements('input').count (count) ->
         count.should.equal 5
         done()
 
+    it 'should return count of selected elements immediately after being initialized', (done) ->
+      driver.elements('input').init (elems) ->
+        this.count().should.equal 5
+        done()
 
+    describe 'get element inside', ->
 
+      it 'could get element inside when not initialized', (done) ->
+        driver.elements('input').get 0, (elem) -> 
+          elem.attr 'name', (name) ->
+            name.should.equal 'textbox'
+            done()
+
+      it 'could get element inside when initialized', (done) ->
+        driver.elements('input').init (elems) ->
+          elems[0].attr 'name', (name) ->
+            name.should.equal 'textbox'
+            done()
 

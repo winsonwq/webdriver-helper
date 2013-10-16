@@ -6,11 +6,25 @@ mr = require 'Mr.Async'
 class Elements extends Array
 
   constructor: (@wdElements) ->
+    @initialized = false
 
   count: (countHandler) ->
-    that = @
-    @wdElements.then (elements) ->
-      countHandler && countHandler.call(that, elements.length)
+    return @.length if @initialized
+    @init (elems) => countHandler?.call @, elems.length
+
+  init: (initHandler) ->
+    return @ if @initialized
+    @wdElements.then (elems) =>
+      @initialized = true
+      @.push(new Element(elem)) for elem in elems
+
+      initHandler?.call @, @
+  
+  get: (index, getHandler) ->
+    index = 0 if index is undefined
+    return @[index] if @initialized
+
+    @init (elems) => getHandler.call @, elems[index]
 
 class Element
 
@@ -40,7 +54,10 @@ class Element
   isChecked: Element.prototype.isSelected
 
   value: (valHandler) ->
-    @wdElement.getAttribute('value').then @proxy(valHandler)
+    @attr 'value', @proxy(valHandler)
+
+  attr: (attrName, attrHandler) ->
+    @wdElement.getAttribute(attrName).then @proxy attrHandler
 
   # for multi-select dropdownlist
   values: (valuesHandler) ->
@@ -73,7 +90,7 @@ class Element
 
   proxy: (handler) ->
     that = @
-    -> handler && handler.apply that, arguments
+    -> handler?.apply that, arguments
 
 _.extend WebDriver.prototype, {
   
