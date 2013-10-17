@@ -99,13 +99,27 @@ class Element
     that = @
     -> handler?.apply that, arguments
 
+class Window
+
+  constructor: (@wdWindow) ->
+
+  position: (x, y) ->
+    if typeof x is 'function'
+      @wdWindow.getPosition().then (position) =>
+        x.call @, position.x, position.y
+    else 
+      @wdWindow.setPosition x, y
+
+proxy = (context, handler) ->
+  -> handler?.apply context, arguments
+
 _.extend WebDriver.prototype, {
   
-  elements: (selector) ->
-    new Elements @findElements(webdriver.By.css(selector))
+  window: () -> new Window @manage().window()
 
-  element: (selector) ->
-    new Element @findElement(webdriver.By.css(selector))
+  elements: (selector) -> new Elements @findElements(webdriver.By.css(selector))
+
+  element: (selector) -> new Element @findElement(webdriver.By.css(selector))
 
   input: (selector) -> @element selector
 
