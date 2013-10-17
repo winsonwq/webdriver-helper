@@ -25,7 +25,7 @@ browser.get('http://localhost:9001');
 ```
 ### Browser API
 
-#### browser.navigateTo()
+#### browser.navigateTo(path)
 Go to the path which is relative to current path.
 
 ```js
