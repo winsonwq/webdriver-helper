@@ -264,7 +264,7 @@ browser.dropdownlist(selector).values(function (values) {
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+*0.1.0* 2013-10-17 MVP
 
 ## License
 Copyright (c) 2013 Wang Qiu  
