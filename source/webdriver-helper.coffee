@@ -147,6 +147,8 @@ _.extend WebDriver.prototype, {
 
   forward: -> @navigate().forward()
 
+  title: (titleHandler) -> @getTitle().then proxy @, titleHandler
+
   currentUrl: (parsedUrlHandler) ->
     @getCurrentUrl().then (currUrl) =>
       parsedUrlHandler?.call @, currUrl, urlHelper.parse(currUrl)

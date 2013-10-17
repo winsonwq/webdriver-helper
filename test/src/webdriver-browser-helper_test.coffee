@@ -80,4 +80,11 @@ describe 'webdriver browser helper', ->
         text.should.contain 'this is a demo page !'
         done()
 
+  describe '#title', ->
+
+    it 'could get title of current page', (done) ->
+      browser.title (title) ->
+        title.should.equal 'THIS IS INDEX'
+        done()
+
 
