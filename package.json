@@ -1,6 +1,6 @@
 {
   "name": "webdriver-helper",
-  "description": "JavaScript WebDriver Helper",
+  "description": "JavaScript WebDriver Helper offer the friendly apis while using selenium-webdriver.",
   "version": "0.1.0",
   "homepage": "https://github.com/winsonwq/webdriver-helper",
   "author": {
@@ -26,7 +26,9 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "build": "grunt coffee",
+    "install": "npm run build",
+    "test": "npm install && grunt test"
   },
   "dependencies": {
     "selenium-webdriver": ">=2.33.0",
