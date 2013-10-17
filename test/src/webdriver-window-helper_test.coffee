@@ -32,4 +32,35 @@ describe 'webdriver window helper', ->
         x.should.equal 500
         y.should.equal 500
         done()
+
+  describe '#size', ->
+
+    it 'could set the size of current window', (done) ->
+      currentWindow.size 500, 400
+      currentWindow.wdWindow.getSize().then (size) ->
+        size.width.should.equal 500
+        size.height.should.equal 400
+        done()
+
+    it 'could get the size of current window', (done) ->
+      currentWindow.size 500, 400
+      currentWindow.size (width, height) ->
+        width.should.equal 500
+        height.should.equal 400
+        done()  
+
+  describe '#maximize', ->
+
+    it 'could maximize the window', (done) ->
+      currentWindow.wdWindow.maximize()
+      currentWindow.wdWindow.getSize().then (size) ->
+        [maxWidth, maxHeight] = [size.width, size.height]
+        currentWindow.size 100, 100
+        currentWindow.position 200, 200
+        currentWindow.maximize()
+        currentWindow.size (width, height) ->
+          width.should.equal maxWidth
+          height.should.equal maxHeight
+          done()
+
       

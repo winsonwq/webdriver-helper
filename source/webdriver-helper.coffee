@@ -110,6 +110,16 @@ class Window
     else 
       @wdWindow.setPosition x, y
 
+  size: (width, height) ->
+    if typeof width is 'function'
+      @wdWindow.getSize().then (size) =>
+        width.call @, size.width, size.height
+    else 
+      @wdWindow.setSize width, height
+
+  maximize: -> @wdWindow.maximize()
+
+
 proxy = (context, handler) ->
   -> handler?.apply context, arguments
 
