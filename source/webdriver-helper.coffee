@@ -32,16 +32,16 @@ class Element
   constructor: (@wdElement) ->
 
   text: (textHandler) ->
-    @wdElement.getText().then @proxy textHandler
+    @wdElement.getText().then proxy @, textHandler
 
   html: (htmlHandler) ->
-    @wdElement.getInnerHtml().then @proxy htmlHandler
+    @wdElement.getInnerHtml().then proxy @, htmlHandler
 
   click: (clickHandler) ->
-    @wdElement.click().then @proxy(clickHandler)
+    @wdElement.click().then proxy @, clickHandler
 
   enter: (text, enterHandler) ->
-    @wdElement.sendKeys(text).then @proxy(enterHandler)
+    @wdElement.sendKeys(text).then proxy @, enterHandler
 
   check: () ->
     @isChecked (checked) => @click() unless checked
@@ -52,22 +52,22 @@ class Element
   select: Element.prototype.check
 
   isSelected: (valHandler) ->
-    @wdElement.isSelected().then @proxy valHandler
+    @wdElement.isSelected().then proxy @, valHandler
     @
 
   isChecked: Element.prototype.isSelected
 
   isEnabled: (valHandler) ->
-    @wdElement.isEnabled().then @proxy valHandler
+    @wdElement.isEnabled().then proxy @, valHandler
 
   value: (valHandler) ->
-    @attr 'value', @proxy(valHandler)
+    @attr 'value', proxy @, valHandler
 
   attr: (attrName, attrHandler) ->
-    @wdElement.getAttribute(attrName).then @proxy attrHandler
+    @wdElement.getAttribute(attrName).then proxy @, attrHandler
 
   css: (cssName, valueHandler) ->
-    @wdElement.getCssValue(cssName).then @proxy valueHandler
+    @wdElement.getCssValue(cssName).then proxy @, valueHandler
 
   # for multi-select dropdownlist
   values: (valuesHandler) ->
@@ -98,10 +98,6 @@ class Element
         _.each targetOptions, (option) ->
           option.click()
       ).start()
-
-  proxy: (handler) ->
-    that = @
-    -> handler?.apply that, arguments
 
 class Window
 

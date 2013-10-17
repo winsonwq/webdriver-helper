@@ -22,7 +22,6 @@ describe 'webdriver browser helper', ->
     it 'could return current url object', (done) ->
       browser.navigateTo '/demo.html?a=1&b=2#c=1'
       browser.currentUrl (currUrl, url) ->
-        console.log currUrl
         url.protocol.should.equal 'http:'
         url.slashes.should.equal true
         url.host.should.equal 'localhost:9001'
