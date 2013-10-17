@@ -35,6 +35,13 @@ describe 'webdriver helper', ->
         text.should.contain 'Form Elements Test'
         done()
 
+  describe 'html', ->
+
+    it 'could return inner html of element', (done) ->
+      driver.element('form').html (html) ->
+        html.should.contain '<legend>Form Elements Test</legend>'
+        done()
+
   describe 'input[name="textbox"]', ->
 
     selector = 'input[name="textbox"]'

@@ -32,7 +32,10 @@ class Element
   constructor: (@wdElement) ->
 
   text: (textHandler) ->
-    @wdElement.getText().then @proxy(textHandler)
+    @wdElement.getText().then @proxy textHandler
+
+  html: (htmlHandler) ->
+    @wdElement.getInnerHtml().then @proxy htmlHandler
 
   click: (clickHandler) ->
     @wdElement.click().then @proxy(clickHandler)
@@ -69,6 +72,7 @@ class Element
   # for multi-select dropdownlist
   values: (valuesHandler) ->
     values = []
+    that = @
     @wdElement.findElements(webdriver.By.tagName('option')).then (options) ->
 
       mr.asynEach(options, ((option) ->
@@ -80,7 +84,7 @@ class Element
               iterator.next()
           else iterator.next()
       ), -> 
-        valuesHandler values
+        valuesHandler.call that, values
       ).start()
 
   option: (values...) ->
