@@ -28,6 +28,13 @@ describe 'webdriver helper', ->
         value.should.equal 'verdana'
         done()
 
+  describe 'text', ->
+
+    it 'could return inner text of element', (done) ->
+      driver.element('body').text (text) ->
+        text.should.contain 'Form Elements Test'
+        done()
+
   describe 'input[name="textbox"]', ->
 
     selector = 'input[name="textbox"]'
