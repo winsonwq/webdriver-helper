@@ -156,7 +156,7 @@ browser.elements('input').init(function (elems) {
 Get first matched element by selector.
 
 #### browser.element(selector).click()
-Click the element, the `click` method is also used for `browser.input()` and `browser.dropdownlist()` element.
+Click the element, the `click` method is also used for `browser.input()`, `browser.dropdownlist()` and `browser.link()` element.
 
 #### browser.element(selector).value(valueHandler)
 Get value for the the matched element's value attribute. It could used in `browser.input(selector).value()` as well.
@@ -258,6 +258,16 @@ For the multi-selected dropdownlist, it will return array of values.
 browser.dropdownlist(selector).values(function (values) {
   values.should.eql([2, 3]);
 });
+```
+
+#### browser.link(selector)
+Use css selector to find the matched link
+
+#### browser.link(partialLinkText)
+*ONLY FOR LINK* 
+
+```js
+browser.link(':contains("Partial Link Text")').click()
 ```
 
 ## Contributing
