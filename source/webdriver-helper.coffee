@@ -119,6 +119,7 @@ class Window
 
   maximize: -> @wdWindow.maximize()
 
+partialLinkTextFormula = /\:contains\([\'\"](.+)[\'\"]\)/
 
 proxy = (context, handler) ->
   -> handler?.apply context, arguments
@@ -132,6 +133,12 @@ _.extend WebDriver.prototype, {
   element: (selector) -> new Element @findElement(webdriver.By.css(selector))
 
   input: (selector) -> @element selector
+
+  link: (selector) ->
+    partialText = ''
+    selector.replace partialLinkTextFormula, (matched, partial) -> partialText = partial
+    return @element selector if partialText is ''
+    @.findElement webdriver.By.partialLinkText partialText
 
   dropdownlist: (selector) -> @element selector
 

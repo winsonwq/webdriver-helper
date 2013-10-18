@@ -154,6 +154,20 @@ describe 'webdriver helper', ->
           values.should.eql ['2', '3']
           done()
 
+  describe 'link', ->
+
+    it 'could find the link with partial text', (done) ->
+      driver.link(':contains("Another")').click()
+      driver.element('body').text (text) ->
+        text.should.contain 'this is a demo page !'
+        done()
+
+    it 'could find the link by normal selector', (done) ->
+      driver.link('#link2').click()
+      driver.element('body').text (text) ->
+        text.should.contain 'this is a demo page !'
+        done()
+
   describe 'elements', ->
 
     it 'should be initialized before doing other actions', (done) ->
