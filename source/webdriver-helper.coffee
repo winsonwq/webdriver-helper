@@ -138,7 +138,7 @@ _.extend WebDriver.prototype, {
     partialText = ''
     selector.replace partialLinkTextFormula, (matched, partial) -> partialText = partial
     return @element selector if partialText is ''
-    @.findElement webdriver.By.partialLinkText partialText
+    new Element(@findElement webdriver.By.partialLinkText partialText)
 
   dropdownlist: (selector) -> @element selector
 
