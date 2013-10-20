@@ -269,6 +269,22 @@ Use css selector to find the matched link
 ```js
 browser.link(':contains("Partial Link Text")').click()
 ```
+### Alert API
+
+#### browser.dialog()
+Get the dialog which could be alert, confirm, prompt dialog.
+
+#### browser.dialog().text(textHandler)
+Get the text on the dialog.
+
+#### browser.dialog().accept(thenHandler)
+Accept(Ok) the confirm and prompt dialog.
+
+#### browser.dialog().dismiss(thenHandler)
+Dismiss(Cancel) the alert, confirm and prompt dialog.
+
+#### browser.dialog().enter(text, thenHandler)
+Enter text in prompt dialog.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
