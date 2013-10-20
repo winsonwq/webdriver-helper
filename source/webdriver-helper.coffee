@@ -1,5 +1,6 @@
 webdriver = require 'selenium-webdriver'
 WebDriver = webdriver.WebDriver
+
 _ = require 'underscore'
 mr = require 'Mr.Async'
 urlHelper = require 'url'
@@ -99,25 +100,21 @@ class Element
           option.click()
       ).start()
 
-class Window
-
-  constructor: (@wdWindow) ->
-
+_.extend WebDriver.Window.prototype, {
   position: (x, y) ->
     if typeof x is 'function'
-      @wdWindow.getPosition().then (position) =>
+      @getPosition().then (position) =>
         x.call @, position.x, position.y
     else 
-      @wdWindow.setPosition x, y
+      @setPosition x, y
 
   size: (width, height) ->
     if typeof width is 'function'
-      @wdWindow.getSize().then (size) =>
+      @getSize().then (size) =>
         width.call @, size.width, size.height
     else 
-      @wdWindow.setSize width, height
-
-  maximize: -> @wdWindow.maximize()
+      @setSize width, height
+}
 
 partialLinkTextFormula = /\:contains\([\'\"](.+)[\'\"]\)/
 
@@ -126,7 +123,7 @@ proxy = (context, handler) ->
 
 _.extend WebDriver.prototype, {
   
-  window: () -> new Window @manage().window()
+  window: () -> @manage().window()
 
   elements: (selector) -> new Elements @findElements(webdriver.By.css(selector))
 
