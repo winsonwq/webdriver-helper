@@ -290,6 +290,7 @@ Enter text in prompt dialog.
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+*0.2.0* 2013-10-20 Add dialog behaviors
 *0.1.0* 2013-10-17 MVP
 
 ## License
