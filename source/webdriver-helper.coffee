@@ -116,13 +116,27 @@ _.extend WebDriver.Window.prototype, {
       @setSize width, height
 }
 
-partialLinkTextFormula = /\:contains\([\'\"](.+)[\'\"]\)/
+class Alert
+
+  constructor: (@wdAlert) -> 
+
+  text: (textHandler) -> @wdAlert.getText().then proxy @, textHandler
+
+  accept: (thenHandler) -> @wdAlert.accept().then proxy @, thenHandler
+
+  dismiss: (thenHandler) -> @wdAlert.dismiss().then proxy @, thenHandler
+
+  enter: (text, thenHandler) -> @wdAlert.sendKeys(text).then proxy @, thenHandler
 
 proxy = (context, handler) ->
   -> handler?.apply context, arguments
 
+partialLinkTextFormula = /\:contains\([\'\"](.+)[\'\"]\)/
+
 _.extend WebDriver.prototype, {
-  
+
+  dialog: () -> new Alert(@switchTo().alert())
+
   window: () -> @manage().window()
 
   elements: (selector) -> new Elements @findElements(webdriver.By.css(selector))

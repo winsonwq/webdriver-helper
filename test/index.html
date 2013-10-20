@@ -45,6 +45,9 @@
         <p>
           <label>Button</label>
           <input id="btn" type="button" name="button" value="Click Me !"/>
+          <input id="alert-btn" type="button" name="button" value="Click Me (alert dialog) !"/>
+          <input id="confirm-btn" type="button" name="button" value="Click Me (confirm dialog) !"/>
+          <input id="prompt-btn" type="button" name="button" value="Click Me (prompt dialog) !"/>
         </p>
 
         <p>
@@ -59,8 +62,27 @@
     </form>
     <script type="text/javascript">
       var button = document.getElementById('btn');
+      var alertBtn = document.getElementById('alert-btn');
+      var confirmBtn = document.getElementById('confirm-btn');
+      var promptBtn = document.getElementById('prompt-btn');
+
       button.onclick = function () {
         document.body.appendChild(document.createTextNode('button clicked!!'));
+      };
+
+      alertBtn.onclick = function () {
+        alert('button clicked!!!!');
+      };
+
+      confirmBtn.onclick = function () {
+        if(confirm('are you ok?')){
+          document.body.appendChild(document.createTextNode('I am ok!'));
+        }
+      };
+
+      promptBtn.onclick = function () {
+        var text = prompt('please enter your name.');
+        document.body.appendChild(document.createTextNode(text));
       };
     </script>
   </body>

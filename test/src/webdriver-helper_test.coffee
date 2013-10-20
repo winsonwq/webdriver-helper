@@ -110,7 +110,7 @@ describe 'webdriver helper', ->
   describe 'input[name="button"]', ->
 
     it 'could be clicked', (done) ->
-      driver.input('input[name="button"]').click ->
+      driver.input('input#btn').click ->
         driver.element('body').text (text) ->
           text.should.contain 'button clicked!!'
           done()
@@ -180,12 +180,12 @@ describe 'webdriver helper', ->
 
     it 'should return count of selected elements', (done) ->
       driver.elements('input').count (count) ->
-        count.should.equal 6
+        count.should.equal 9
         done()
 
     it 'should return count of selected elements immediately after being initialized', (done) ->
       driver.elements('input').init (elems) ->
-        this.count().should.equal 6
+        this.count().should.equal 9
         done()
 
     describe 'get element inside', ->
