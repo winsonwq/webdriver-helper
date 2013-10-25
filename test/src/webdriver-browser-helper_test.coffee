@@ -87,4 +87,10 @@ describe 'webdriver browser helper', ->
         title.should.equal 'THIS IS INDEX'
         done()
 
+  describe '#exec', ->
+
+    it 'should run a executable javascript', (done) ->
+      # browser.executeScript('alert(arguments[0]);', browser.findElements(webdriver.By.css('input'))).then ->
+      done()
+
 

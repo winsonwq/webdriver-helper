@@ -18,7 +18,7 @@ class Elements extends Array
     return @ if @initialized
     @wdElements.then (elems) =>
       @initialized = true
-      @.push(new Element(elem)) for elem in elems
+      @.push(elem) for elem in elems
 
       initHandler?.call @, @
   
@@ -28,59 +28,60 @@ class Elements extends Array
 
     @init (elems) => getHandler.call @, elems[index]
 
-class Element
-
-  constructor: (@wdElement) ->
+_click = webdriver.WebElement.prototype.click
+_isSelected = webdriver.WebElement.prototype.isSelected
+_isEnabled = webdriver.WebElement.prototype.isEnabled
+_.extend webdriver.WebElement.prototype,
 
   text: (textHandler) ->
-    @wdElement.getText().then proxy @, textHandler
+    @getText().then proxy @, textHandler
 
   html: (htmlHandler) ->
-    @wdElement.getInnerHtml().then proxy @, htmlHandler
+    @getInnerHtml().then proxy @, htmlHandler
 
   click: (clickHandler) ->
-    @wdElement.click().then proxy @, clickHandler
+    _click.call(@).then proxy @, clickHandler
 
   enter: (text, enterHandler) ->
-    @wdElement.sendKeys(text).then proxy @, enterHandler
+    @sendKeys(text).then proxy @, enterHandler
 
-  check: () ->
-    @isChecked (checked) => @click() unless checked
+  check: () -> @isSelected (checked) => @click() unless checked
 
-  uncheck: () ->
-    @isChecked (checked) => @click() if checked
+  uncheck: () -> @isSelected (checked) => @click() if checked
 
-  select: Element.prototype.check
+  select: () -> @isSelected (checked) => @click() unless checked
 
   isSelected: (valHandler) ->
-    @wdElement.isSelected().then proxy @, valHandler
+    _isSelected.call(@).then proxy @, valHandler
     @
 
-  isChecked: Element.prototype.isSelected
+  isChecked: (valHandler) ->
+    _isSelected.call(@).then proxy @, valHandler
+    @
 
   isEnabled: (valHandler) ->
-    @wdElement.isEnabled().then proxy @, valHandler
+    _isEnabled.call(@).then proxy @, valHandler
 
   value: (valHandler) ->
     @attr 'value', proxy @, valHandler
 
   attr: (attrName, attrHandler) ->
-    @wdElement.getAttribute(attrName).then proxy @, attrHandler
+    @getAttribute(attrName).then proxy @, attrHandler
 
   css: (cssName, valueHandler) ->
-    @wdElement.getCssValue(cssName).then proxy @, valueHandler
+    @getCssValue(cssName).then proxy @, valueHandler
 
   # for multi-select dropdownlist
   values: (valuesHandler) ->
     values = []
     that = @
-    @wdElement.findElements(webdriver.By.tagName('option')).then (options) ->
+    @findElements(webdriver.By.tagName('option')).then (options) ->
 
       mr.asynEach(options, ((option) ->
         iterator = this
-        option.isSelected().then (selected) ->
+        option.isSelected (selected) ->
           if selected
-            option.getAttribute('value').then (optValue) -> 
+            option.value (optValue) -> 
               values.push optValue
               iterator.next()
           else iterator.next()
@@ -90,7 +91,7 @@ class Element
 
   option: (values...) ->
     targetOptions = []
-    @wdElement.findElements(webdriver.By.tagName('option')).then (options) ->
+    @findElements(webdriver.By.tagName('option')).then (options) ->
 
       mr.asynEach(options, ((option) ->
         option.getAttribute('value').then this.callback (optValue) -> 
@@ -141,7 +142,7 @@ _.extend WebDriver.prototype, {
 
   elements: (selector) -> new Elements @findElements(webdriver.By.css(selector))
 
-  element: (selector) -> new Element @findElement(webdriver.By.css(selector))
+  element: (selector) -> @findElement(webdriver.By.css(selector))
 
   input: (selector) -> @element selector
 
@@ -149,7 +150,7 @@ _.extend WebDriver.prototype, {
     partialText = ''
     selector.replace partialLinkTextFormula, (matched, partial) -> partialText = partial
     return @element selector if partialText is ''
-    new Element(@findElement webdriver.By.partialLinkText partialText)
+    @findElement webdriver.By.partialLinkText partialText
 
   dropdownlist: (selector) -> @element selector
 
