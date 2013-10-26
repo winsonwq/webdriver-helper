@@ -87,4 +87,43 @@ describe 'webdriver browser helper', ->
         title.should.equal 'THIS IS INDEX'
         done()
 
+  describe '#exec', ->
 
+    it 'should run an executable javascript', (done) ->
+      browser.exec 'alert("hello world!");', ->
+        browser.dialog().text (text) ->
+          text.should.equal 'hello world!'
+          browser.dialog().dismiss -> done()
+
+    it 'should run an executable javascript with args', (done) ->
+      browser.exec 'alert(arguments[0][0]);', ['hello!'], ->
+        browser.dialog().text (text) ->
+          text.should.equal 'hello!'
+          browser.dialog().dismiss -> done()
+
+    it 'should run an executable javascript with webelement selector', (done) ->
+      browser.exec 'alert(arguments[0][0].name)', browser.elements('input[type="checkbox"]')
+      browser.dialog().text (text) ->
+        text.should.equal 'checkbox'
+        browser.dialog().dismiss -> done()
+
+  describe '#execAsync', ->
+
+    it 'should run an executable async javascript', (done) ->
+      browser.manage().timeouts().setScriptTimeout(5000);
+      browser.execAsync 'var callback = arguments[arguments.length - 1];setTimeout(function(){ callback(10); }, 500);', (num) ->
+        num.should.equal 10
+        done()
+
+    it 'should run an executable async javascript with args', (done) ->
+      browser.manage().timeouts().setScriptTimeout(5000);
+      browser.execAsync 'var callback = arguments[arguments.length - 1];var str = arguments[0][0];setTimeout(function(){ callback(str); }, 500);', ['hello world'], (str) ->
+        str.should.equal 'hello world'
+        done()
+    
+    it 'should run an executable async javascript with webelement selector', (done) ->
+      browser.manage().timeouts().setScriptTimeout(5000);
+      browser.execAsync 'var callback = arguments[arguments.length - 1];var elem = arguments[0][0];setTimeout(function(){ callback(elem); }, 500);', browser.elements('input[type="checkbox"]'), (elem) ->
+        elem.attr 'name', (name) -> 
+          name.should.equal 'checkbox'
+          done()   

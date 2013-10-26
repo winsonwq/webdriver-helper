@@ -54,14 +54,12 @@ describe 'webdriver helper', ->
       input.enter 'hello input'
       input.value (value) ->
         value.should.equal 'hello input'
-        this.should.equal input
         done()
 
     it 'could enter value in textbox in aync syntax', (done) ->
       input.enter 'hello input', ->
         input.value (value) ->
           value.should.equal 'hello input'
-          this.should.equal input
           done()
 
   describe 'input[name="checkbox"]', ->
