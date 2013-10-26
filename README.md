@@ -269,6 +269,61 @@ Use css selector to find the matched link
 ```js
 browser.link(':contains("Partial Link Text")').click()
 ```
+
+#### browser.exec(script, args, callback)
+
+```js
+browser.exec('alert("hello world!");', function() {
+  browser.dialog().text(function (text) {
+    text.should.equal('hello world!');
+  });
+});
+```
+
+Use args
+```js
+browser.exec('alert(arguments[0][0]);', ['hello!'], function() {
+  browser.dialog().text(function (text) {
+    text.should.equal('hello!');
+  });
+});
+```
+
+Use elements
+```js
+browser.exec('alert(arguments[0][0].name);', browser.elements('input[type="checkbox"]');
+browser.dialog().text(function (text) {
+  text.should.equal('checkbox');
+});
+```
+
+#### browser.execAsync(script, args, callback)
+
+```js
+browser.manage().timeouts().setScriptTimeout(5000);
+browser.execAsync('var callback = arguments[arguments.length - 1];setTimeout(function(){ callback(10); }, 500);', function(num) {
+  num.should.equal(10);
+});
+```
+
+Use args
+```js
+browser.manage().timeouts().setScriptTimeout(5000);
+browser.execAsync('var callback = arguments[arguments.length - 1];var str = arguments[0][0]; setTimeout(function(){ callback(str); }, 500);', ['hello world'], function(str) {
+  str.should.equal('hello world');
+});
+```
+
+Use elements
+```js
+browser.manage().timeouts().setScriptTimeout(5000);
+browser.execAsync('var callback = arguments[arguments.length - 1];var elem = arguments[0][0]; setTimeout(function(){ callback(elem); }, 500);', browser.elements('input[type="checkbox"]'), function(element) {
+  element.attr('name', function(name) {
+    name.should.equal('hello world');
+  });
+});
+```
+
 ### Alert API
 
 #### browser.dialog()
