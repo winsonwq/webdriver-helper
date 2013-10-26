@@ -319,7 +319,7 @@ Use elements
 browser.manage().timeouts().setScriptTimeout(5000);
 browser.execAsync('var callback = arguments[arguments.length - 1];var elem = arguments[0][0]; setTimeout(function(){ callback(elem); }, 500);', browser.elements('input[type="checkbox"]'), function(element) {
   element.attr('name', function(name) {
-    name.should.equal('hello world');
+    name.should.equal('checkbox');
   });
 });
 ```
