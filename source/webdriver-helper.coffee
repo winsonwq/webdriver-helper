@@ -28,9 +28,8 @@ class Elements extends Array
 
     @init (elems) => getHandler.call @, elems[index]
 
-_click = webdriver.WebElement.prototype.click
-_isSelected = webdriver.WebElement.prototype.isSelected
-_isEnabled = webdriver.WebElement.prototype.isEnabled
+[_click, _isSelected, _isEnabled] = (webdriver.WebElement.prototype[name] for name in ['click', 'isSelected', 'isEnabled'])
+
 _.extend webdriver.WebElement.prototype,
 
   text: (textHandler) ->
@@ -136,8 +135,10 @@ partialLinkTextFormula = /\:contains\([\'\"](.+)[\'\"]\)/
 
 _.extend WebDriver.prototype, {
 
-  exec: () -> 
+  _exec: () ->
     args = _.toArray arguments
+    async = args.shift()
+
     return if args.length < 1
     while arg = args.pop()
       script = arg if _.isString arg
@@ -145,7 +146,12 @@ _.extend WebDriver.prototype, {
       callArgs = arg if _.isArray arg
       callArgs = arg.wdElements if arg instanceof Elements
 
-    @executeScript(script, callArgs).then proxy @, callback
+    execute = if async then @executeAsyncScript else @executeScript
+    execute.call(@, script, callArgs).then proxy @, callback
+
+  exec: () -> @_exec.apply @, [false].concat _.toArray arguments
+
+  execAsync: () -> @_exec.apply @, [true].concat _.toArray arguments
 
   dialog: () -> new Alert(@switchTo().alert())
 
