@@ -90,7 +90,19 @@ describe 'webdriver browser helper', ->
   describe '#exec', ->
 
     it 'should run a executable javascript', (done) ->
-      # browser.executeScript('alert(arguments[0]);', browser.findElements(webdriver.By.css('input'))).then ->
-      done()
+      browser.exec 'alert("hello world!");', ->
+        browser.dialog().text (text) ->
+          text.should.equal 'hello world!'
+          browser.dialog().dismiss -> done()
 
+    it 'should run a executable javascript with args', (done) ->
+      browser.exec 'alert(arguments[0]);', ['hello!'], ->
+        browser.dialog().text (text) ->
+          text.should.equal 'hello!'
+          browser.dialog().dismiss -> done()
 
+    it 'should run a executable javascript with webelement selector', (done) ->
+      browser.exec 'alert(arguments[0][0].name)', browser.elements('input[type="checkbox"]'), ->
+      browser.dialog().text (text) ->
+        text.should.equal 'checkbox'
+        browser.dialog().dismiss -> done()

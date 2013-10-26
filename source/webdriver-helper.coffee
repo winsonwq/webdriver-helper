@@ -136,6 +136,17 @@ partialLinkTextFormula = /\:contains\([\'\"](.+)[\'\"]\)/
 
 _.extend WebDriver.prototype, {
 
+  exec: () -> 
+    args = _.toArray arguments
+    return if args.length < 1
+    while arg = args.pop()
+      script = arg if _.isString arg
+      callback = arg if _.isFunction arg
+      callArgs = arg if _.isArray arg
+      callArgs = arg.wdElements if arg instanceof Elements
+
+    @executeScript(script, callArgs).then proxy @, callback
+
   dialog: () -> new Alert(@switchTo().alert())
 
   window: () -> @manage().window()
