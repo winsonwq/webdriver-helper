@@ -1,7 +1,7 @@
 {
   "name": "webdriver-helper",
   "description": "JavaScript WebDriver Helper offer the friendly apis while using selenium-webdriver.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/winsonwq/webdriver-helper",
   "author": {
     "name": "Wang Qiu",
