@@ -346,11 +346,11 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
-*0.2.1* 2013-10-20 Add `exec` and `execAsync` JavaScript support 
+**0.2.1** 2013-10-20 Add `exec` and `execAsync` JavaScript support 
 
-*0.2.0* 2013-10-20 Add dialog behaviors
+**0.2.0** 2013-10-20 Add dialog behaviors
 
-*0.1.0* 2013-10-17 MVP
+**0.1.0** 2013-10-17 MVP
 
 ## License
 Copyright (c) 2013 Wang Qiu  
