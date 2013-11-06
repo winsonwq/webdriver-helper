@@ -59,6 +59,11 @@ describe 'webdriver browser helper', ->
         val.should.be.empty
         done()
 
+  describe '#sleep', ->
+
+    it 'could sleep for a while', (done) ->
+      browser.sleep(2000).then -> done()
+
   describe '#back', ->
 
     it 'could go back to the page in history', (done) ->

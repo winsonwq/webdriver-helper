@@ -171,8 +171,6 @@ _.extend WebDriver.prototype, {
 
   dropdownlist: (selector) -> @element selector
 
-  sleep: (duration) -> this.sleep duration
-
   navigateTo: (url) -> 
     @currentUrl (currUrl) =>
       @.get urlHelper.resolve currUrl, url
