@@ -4,11 +4,11 @@ path = require 'path'
 
 INPUT_PATH = path.join __dirname, 'source'
 OUTPUT_PATH = path.join __dirname, 'lib'
-CMD = (process.platform == 'win32') ? 'coffee.cmd' : 'coffee'
 
+CMD = if process.platform == 'win32' then 'coffee.cmd' else 'coffee'
 
 task 'build', 'Build lib/ form source/', ->
-  coffee = spawn CMD, ['-c', '-o', OUTPUT_PATH, INPUT_PATH]
+  coffee = spawn CMD, ['-o', OUTPUT_PATH, '-c', INPUT_PATH]
   coffee.stderr.pipe process.stderr
   coffee.stdout.pipe process.stdout
   coffee.on 'error', (err) ->
