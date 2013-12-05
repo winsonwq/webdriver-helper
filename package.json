@@ -26,14 +26,16 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "build": "cake build",
+    "build": "./node_modules/cake/bin/cake build",
     "install": "npm run build",
     "test": "npm install && grunt test"
   },
   "dependencies": {
     "selenium-webdriver": ">=2.33.0",
     "underscore": "*",
-    "Mr.Async": "latest"
+    "Mr.Async": "latest",
+    "cake": "~0.1.1",
+    "coffee-script": "~1.6.3"
   },
   "devDependencies": {
     "grunt-contrib-watch": "~0.2.0",
