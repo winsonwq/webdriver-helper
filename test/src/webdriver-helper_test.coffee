@@ -120,6 +120,13 @@ describe 'webdriver helper', ->
         enabled.should.be.false
         done();
 
+  describe '#displayed', ->
+
+    it 'should not be displayed', (done) ->
+
+      driver.element('#displayed').isDisplayed (displayed) ->
+        displayed.should.be.false
+        done();
 
   describe 'select[name="dropdownlist"]', ->
 

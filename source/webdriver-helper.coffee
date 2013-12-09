@@ -28,7 +28,7 @@ class Elements extends Array
 
     @init (elems) => getHandler.call @, elems[index]
 
-[_click, _isSelected, _isEnabled] = (webdriver.WebElement.prototype[name] for name in ['click', 'isSelected', 'isEnabled'])
+[_click, _isSelected, _isEnabled, _isDisplayed] = (webdriver.WebElement.prototype[name] for name in ['click', 'isSelected', 'isEnabled', 'isDisplayed'])
 
 _.extend webdriver.WebElement.prototype,
 
@@ -60,6 +60,9 @@ _.extend webdriver.WebElement.prototype,
 
   isEnabled: (valHandler) ->
     _isEnabled.call(@).then proxy @, valHandler
+
+  isDisplayed: (valHandler) ->
+    _isDisplayed.call(@).then proxy @, valHandler
 
   value: (valHandler) ->
     @attr 'value', proxy @, valHandler
