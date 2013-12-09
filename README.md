@@ -212,6 +212,15 @@ browser.element('input#btn').isEnabled(function (enabledStatus) {
 });
 ```
 
+#### browser.element(selector).isDisplayed(displayedHandler)
+Get value for visibility of element.
+
+```js
+browser.element('#displayed').isDisplayed(function (displayed) {
+  displayed.should.be.false;
+});
+```
+
 #### browser.input(selector)
 Get first matched `input` element by selector, it includes textbox, checkbox, radio etc...
 
