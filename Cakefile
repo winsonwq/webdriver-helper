@@ -5,7 +5,7 @@ path = require 'path'
 INPUT_PATH = path.join __dirname, 'source'
 OUTPUT_PATH = path.join __dirname, 'lib'
 
-CMD = if process.platform == 'win32' then 'coffee.cmd' else './node_modules/coffee-script/bin/coffee'
+CMD = if process.platform == 'win32' then 'coffee.cmd' else 'coffee'
 
 task 'build', 'Build lib/ form source/', ->
   coffee = spawn CMD, ['-o', OUTPUT_PATH, '-c', INPUT_PATH]
